@@ -2,40 +2,39 @@ package baseball.domain;
 
 public class Computer {
 
-    private int firstNumber;
+    private int firstNum;
+    private int secondNum;
+    private int thirdNum;
 
-    private int secondNumber;
 
-
-    private int thirdNumber;
-
-    public Computer(int firstNumber, int secondNumber, int thirdNumber) {
-        this.firstNumber = firstNumber;
-        this.secondNumber = secondNumber;
-        this.thirdNumber = thirdNumber;
+    public Computer(int firstNum, int secondNum, int thirdNum) {
+        this.firstNum = firstNum;
+        this.secondNum = secondNum;
+        this.thirdNum = thirdNum;
     }
 
-    public int getFirstNumber() {
-        return firstNumber;
+    public int getFirstNum() {
+        return firstNum;
     }
 
-    public void setFirstNumber(int firstNumber) {
-        this.firstNumber = firstNumber;
+    public void setFirstNum(int firstNum) {
+        this.firstNum = firstNum;
     }
 
-    public int getSecondNumber() {
-        return secondNumber;
+    public int getSecondNum() {
+        return secondNum;
     }
 
-    public void setSecondNumber(int secondNumber) {
-        this.secondNumber = secondNumber;
+    public void setSecondNum(int secondNum) {
+        this.secondNum = secondNum;
     }
 
-    public int getThirdNumber() {
-        return thirdNumber;
+    public int getThirdNum() {
+        return thirdNum;
     }
 
-    public void setThirdNumber(int thirdNumber) {
-        this.thirdNumber = thirdNumber;
+    public void setThirdNum(int thirdNum) {
+        this.thirdNum = thirdNum;
     }
+
 }

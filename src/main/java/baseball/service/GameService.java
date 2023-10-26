@@ -1,47 +1,55 @@
 package baseball.service;
 
-import java.util.ArrayList;
+import baseball.AppConfig;
 
 public class GameService {
 
+    private static final ComputerService computerService = AppConfig.computerService();
+    private static final PlayerService playerService = AppConfig.playerService();
+    private static final MessageService messageService = AppConfig.messageService();
 
-    public void checkInputPlayerNumber(String inputPlayerNumbers){
-        checkForCharacterExistence(inputPlayerNumbers);
-        checkTheLength(inputPlayerNumbers);
-        checkForDuplicateNumber(inputPlayerNumbers);
-        checkThePresenceOfZeros(inputPlayerNumbers);
-    }
 
-    public void checkTheLength(String inputPlayerNumbers){
-        if (inputPlayerNumbers.length() != 3) {
-            throw  new IllegalArgumentException();
-        }
-    }
+    public static void start() {
+        boolean gameOn = true;
+        int gameCount = 0;
 
-    public void checkForDuplicateNumber(String inputPlayerNumbers){
-        ArrayList<Integer> numbers = new ArrayList<>();
-        for (int i=0;i<3;i++) {
-            if (numbers.contains(Character.getNumericValue(inputPlayerNumbers.charAt(i)))){
-                throw  new IllegalArgumentException();
+        messageService.startMessage();
+        while (gameOn) {
+            if (gameOn && gameCount == 0) {
+                initGame();
             }
-            numbers.add(Character.getNumericValue(inputPlayerNumbers.charAt(i)));
-        }
-    }
-
-    public void checkThePresenceOfZeros(String inputPlayerNumbers){
-        if (inputPlayerNumbers.contains("0")){
-            throw  new IllegalArgumentException();
-        }
-    }
-
-    public void checkForCharacterExistence(String inputPlayerNumbers){
-        for (int i=0;i<3;i++) {
-            try{
-                Integer.parseInt(inputPlayerNumbers);
-            }catch (IllegalArgumentException e){
-                throw  new IllegalArgumentException();
+            inputPlayerNumber();
+            showBallCount();
+            gameCount += 1;
+            if (checkStrikeNumber() == 3) {
+                gameOn = confirmGameRestart();
+                gameCount = 0;
             }
         }
+
+    }
+
+    public static boolean confirmGameRestart() {
+        messageService.endMessage();
+        messageService.restartMessage();
+        return playerService.inputRestartAnswer();
+    }
+
+    public static int checkStrikeNumber() {
+        return playerService.checkBallCount(computerService.getComputerNumber()).get(1);
+    }
+
+    public static void inputPlayerNumber() {
+        playerService.setPlayerNumber(playerService.inputPlayerNumber());
+    }
+
+    public static void showBallCount() {
+        messageService.resultMessage(playerService.checkBallCount(computerService.getComputerNumber()));
+    }
+
+
+    public static void initGame() {
+        computerService.setComputerNumber();
     }
 
 }

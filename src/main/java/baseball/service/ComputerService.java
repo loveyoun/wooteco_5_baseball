@@ -25,9 +25,9 @@ public class ComputerService {
 
     public ArrayList<Integer> getComputerNumber() {
         ArrayList<Integer> computerNumberList = new ArrayList<>();
-        computerNumberList.add(computerRepository.getComputer().getFirstNumber());
-        computerNumberList.add(computerRepository.getComputer().getSecondNumber());
-        computerNumberList.add(computerRepository.getComputer().getThirdNumber());
+        computerNumberList.add(computerRepository.getComputer().getFirstNum());
+        computerNumberList.add(computerRepository.getComputer().getSecondNum());
+        computerNumberList.add(computerRepository.getComputer().getThirdNum());
         return computerNumberList;
     }
 }
