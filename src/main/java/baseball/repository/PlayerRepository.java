@@ -6,8 +6,8 @@ public class PlayerRepository {
 
     private Player player;
 
-    public void setPlayer(int firstNumber, int secondNumber, int thirdNumber) {
-        this.player = new Player(firstNumber,secondNumber,thirdNumber);
+    public void setPlayer(int firstNum, int secondNum, int thirdNum) {
+        this.player = new Player(firstNum, secondNum, thirdNum);
     }
 
     public Player getPlayer() {

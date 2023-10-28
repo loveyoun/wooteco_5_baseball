@@ -6,6 +6,4 @@ import baseball.service.PlayerService;
 
 public class BaseballController {
 
-
-
 }
