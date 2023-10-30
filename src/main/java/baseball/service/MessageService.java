@@ -12,32 +12,29 @@ public class MessageService {
         System.out.print("숫자를 입력해주세요 : ");
     }
 
-    public void restartMessage() {
-        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
-    }
-
     public void endMessage() {
         System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
     }
 
+    public void restartMessage() {
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+    }
+
     public void resultMessage(ArrayList<Integer> ballCount) {
-        String message = "";
+        String result = "";
+        int ball = ballCount.get(0);
+        int strike = ballCount.get(1);
 
-        if (ballCount.get(0) > 0) {
-            message += ballCount.get(0) + "볼 ";
-        }
+        if (strike > 0 && ball > 0)
+            result += ball + "볼 " + strike + "스트라이크";
+        else if (ball > 0)
+            result = ball + "볼";
+        else if (strike > 0)
+            result = strike + "스트라이크";
+        else
+            result = "낫싱";
 
-        if (ballCount.get(1) > 0) {
-            message += ballCount.get(1) + "스트라이크";
-        } else {
-            message = ballCount.get(0) + "볼";
-        }
-
-        if (ballCount.get(1) == 0 && ballCount.get(0) == 0) {
-            message = "낫싱";
-        }
-
-        System.out.println(message);
+        System.out.println(result);
     }
 
 }

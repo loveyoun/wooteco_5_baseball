@@ -1,55 +1,71 @@
 package baseball.service;
 
-import baseball.AppConfig;
+import baseball.domain.Computer;
+import baseball.domain.Player;
+import camp.nextstep.edu.missionutils.Console;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class GameService {
 
-    private static final ComputerService computerService = AppConfig.computerService();
-    private static final PlayerService playerService = AppConfig.playerService();
-    private static final MessageService messageService = AppConfig.messageService();
+    private final ComputerService computerService = new ComputerService();
+    private final PlayerService playerService = new PlayerService();
+    private final MessageService messageService = new MessageService();
 
 
-    public static void start() {
-        boolean gameOn = true;
-        int gameCount = 0;
-
+    public Computer initComputer() {
         messageService.startMessage();
-        while (gameOn) {
-            if (gameOn && gameCount == 0) {
-                initGame();
-            }
-            inputPlayerNumber();
-            showBallCount();
-            gameCount += 1;
-            if (checkStrikeNumber() == 3) {
-                gameOn = confirmGameRestart();
-                gameCount = 0;
-            }
+        return setComputer();
+    }
+
+    public Computer setComputer() {
+        return computerService.setComputerNumber();
+    }
+
+    public Player initPlayer() {
+        messageService.inputMessage();
+        return playerService.inputPlayerNumber();
+    }
+
+
+    public ArrayList<Integer> getResult(Computer computer, Player player) {
+        ArrayList<Integer> computerNumbers = computerService.getComputerNumber(computer);
+        ArrayList<Integer> playerNumbers = playerService.getPlayerNumber(player);
+
+        return checkBallCount(computerNumbers, playerNumbers);
+    }
+
+    public ArrayList<Integer> checkBallCount(ArrayList<Integer> com, ArrayList<Integer> player) {
+        int ball = 0, strike = 0;
+        for (int i = 0; i < 3; i++) {
+            if (Objects.equals(com.get(i), player.get(i)))
+                strike += 1;
+            else if (com.contains(player.get(i)))
+                ball += 1;
         }
 
+        return new ArrayList<>(Arrays.asList(ball, strike));
     }
 
-    public static boolean confirmGameRestart() {
+    public void showResult(ArrayList<Integer> result) {
+        messageService.resultMessage(result);
+    }
+
+
+    public boolean confirmGameRestart() {
         messageService.endMessage();
         messageService.restartMessage();
-        return playerService.inputRestartAnswer();
+        return inputRestartAnswer();
     }
 
-    public static int checkStrikeNumber() {
-        return playerService.checkBallCount(computerService.getComputerNumber()).get(1);
-    }
+    public Boolean inputRestartAnswer() {
+        String answer = Console.readLine();
 
-    public static void inputPlayerNumber() {
-        playerService.setPlayerNumber(playerService.inputPlayerNumber());
-    }
-
-    public static void showBallCount() {
-        messageService.resultMessage(playerService.checkBallCount(computerService.getComputerNumber()));
-    }
-
-
-    public static void initGame() {
-        computerService.setComputerNumber();
+        if (answer.equals("1")) return true;
+        else if (answer.equals("2")) return false;
+        else throw new IllegalArgumentException();
     }
 
 }

@@ -1,33 +1,39 @@
 package baseball.service;
 
-import baseball.repository.ComputerRepository;
+import baseball.domain.Computer;
 import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComputerService {
-    private ComputerRepository computerRepository = new ComputerRepository();
 
-    public void setComputerNumber() {
+//    private final ComputerRepository computerRepository = new ComputerRepository();
+
+
+    public Computer setComputerNumber() {
         List<Integer> computerNumbers = new ArrayList<>();
-        while (computerNumbers.size() < 3){
-            int randomNumber = Randoms.pickNumberInRange(1,9);
-            if (!computerNumbers.contains(randomNumber)){
+        while (computerNumbers.size() < 3) {
+            int randomNumber = Randoms.pickNumberInRange(1, 9);
+            if (!computerNumbers.contains(randomNumber))
                 computerNumbers.add(randomNumber);
-            }
         }
-        int firstNumber = computerNumbers.get(0);
-        int secondNumber = computerNumbers.get(1);
-        int thirdNumber = computerNumbers.get(2);
-        computerRepository.setComputer(firstNumber,secondNumber,thirdNumber);
+
+        int firstNum = computerNumbers.get(0);
+        int secondNum = computerNumbers.get(1);
+        int thirdNum = computerNumbers.get(2);
+
+//        computerRepository.setComputer(firstNum,secondNum,thirdNum);
+        return new Computer(firstNum, secondNum, thirdNum);
     }
 
-    public ArrayList<Integer> getComputerNumber() {
-        ArrayList<Integer> computerNumberList = new ArrayList<>();
-        computerNumberList.add(computerRepository.getComputer().getFirstNum());
-        computerNumberList.add(computerRepository.getComputer().getSecondNum());
-        computerNumberList.add(computerRepository.getComputer().getThirdNum());
-        return computerNumberList;
+    public ArrayList<Integer> getComputerNumber(Computer computer) {
+        ArrayList<Integer> computerNumbers = new ArrayList<>();
+        computerNumbers.add(computer.getFirstNum());
+        computerNumbers.add(computer.getSecondNum());
+        computerNumbers.add(computer.getThirdNum());
+
+        return computerNumbers;
     }
+
 }

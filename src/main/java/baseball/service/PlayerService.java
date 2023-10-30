@@ -1,70 +1,38 @@
 package baseball.service;
 
-import baseball.repository.PlayerRepository;
+import baseball.domain.Player;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PlayerService {
 
-    //    private final GameService gameService = new GameService();
-    private final PlayerRepository playerRepository = new PlayerRepository();
+//    private final PlayerRepository playerRepository = new PlayerRepository();
 
 
-    public ArrayList<Integer> inputPlayerNumber() {
-        ArrayList<Integer> playerNumberList = new ArrayList<>();
+    public Player inputPlayerNumber() {   // contains setPlayerNumber()
+        ArrayList<Integer> playerNumbers = new ArrayList<>();
+        String inputNum = Console.readLine();
+        checkInputPlayerNumber(inputNum);
 
-        System.out.print("숫자를 입력해주세요 : ");
-        String playerNumbers = Console.readLine();
-//        gameService.checkInputPlayerNumber(playerNumbers);
-        checkInputPlayerNumber(playerNumbers);
         for (int i = 0; i < 3; i++) {
-            playerNumberList.add(Character.getNumericValue(playerNumbers.charAt(i)));
+//            Integer.parseInt(String.valueOf(inputNum.charAt(1)));
+            playerNumbers.add(Character.getNumericValue(inputNum.charAt(i)));
         }
-        return playerNumberList;
+        int firstNum = playerNumbers.get(0);
+        int secondNum = playerNumbers.get(1);
+        int thirdNum = playerNumbers.get(2);
+
+        return new Player(firstNum, secondNum, thirdNum);
     }
 
-
-    public void setPlayerNumber(ArrayList<Integer> playerNumberList) {
-        int firstNumber = playerNumberList.get(0);
-        int secondNumber = playerNumberList.get(1);
-        int thirdNumber = playerNumberList.get(2);
-        playerRepository.setPlayer(firstNumber, secondNumber, thirdNumber);
-    }
-
-    public ArrayList<Integer> getPlayerNumber() {
+    public ArrayList<Integer> getPlayerNumber(Player player) {
         ArrayList<Integer> playerNumberList = new ArrayList<>();
-        playerNumberList.add(playerRepository.getPlayer().getFirstNum());
-        playerNumberList.add(playerRepository.getPlayer().getSecondNum());
-        playerNumberList.add(playerRepository.getPlayer().getThirdNum());
+        playerNumberList.add(player.getFirstNum());
+        playerNumberList.add(player.getSecondNum());
+        playerNumberList.add(player.getThirdNum());
+
         return playerNumberList;
-    }
-
-    public Boolean inputRestartAnswer() {
-        String answer = Console.readLine();
-        if (answer.equals("1")) {
-            return true;
-        } else if (answer.equals("2")) {
-            return false;
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    public ArrayList<Integer> checkBallCount(ArrayList<Integer> computerNumbers) {
-        ArrayList<Integer> ballCount = new ArrayList<>(Arrays.asList(0, 0));
-        ArrayList<Integer> playerNumbers = getPlayerNumber();
-        for (int i = 0; i < 3; i++) {
-            if (computerNumbers.contains(playerNumbers.get(i))) {
-                ballCount.set(0, ballCount.get(0) + 1);
-            }
-            if (computerNumbers.get(i) == playerNumbers.get(i)) {
-                ballCount.set(1, ballCount.get(1) + 1);
-                ballCount.set(0, ballCount.get(0) - 1);
-            }
-        }
-        return ballCount;
     }
 
 
@@ -75,36 +43,31 @@ public class PlayerService {
         checkThePresenceOfZeros(inputPlayerNumbers);
     }
 
-    public void checkTheLength(String inputPlayerNumbers) {
-        if (inputPlayerNumbers.length() != 3) {
+    public void checkForCharacterExistence(String inputPlayerNumbers) {
+        try {
+            Integer.parseInt(inputPlayerNumbers);
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException();
         }
     }
 
+    public void checkTheLength(String inputPlayerNumbers) {
+        if (inputPlayerNumbers.length() != 3)
+            throw new IllegalArgumentException();
+    }
+
     public void checkForDuplicateNumber(String inputPlayerNumbers) {
-        ArrayList<Integer> numbers = new ArrayList<>();
+        ArrayList<Integer> numbers = new ArrayList<>();   // new boolean[10]
         for (int i = 0; i < 3; i++) {
-            if (numbers.contains(Character.getNumericValue(inputPlayerNumbers.charAt(i)))) {
+            if (numbers.contains(Character.getNumericValue(inputPlayerNumbers.charAt(i))))
                 throw new IllegalArgumentException();
-            }
             numbers.add(Character.getNumericValue(inputPlayerNumbers.charAt(i)));
         }
     }
 
     public void checkThePresenceOfZeros(String inputPlayerNumbers) {
-        if (inputPlayerNumbers.contains("0")) {
+        if (inputPlayerNumbers.contains("0"))
             throw new IllegalArgumentException();
-        }
-    }
-
-    public void checkForCharacterExistence(String inputPlayerNumbers) {
-        for (int i = 0; i < 3; i++) {
-            try {
-                Integer.parseInt(inputPlayerNumbers);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException();
-            }
-        }
     }
 
 }
