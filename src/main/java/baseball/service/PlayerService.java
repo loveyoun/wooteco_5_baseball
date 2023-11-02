@@ -37,13 +37,13 @@ public class PlayerService {
 
 
     public void checkInputPlayerNumber(String inputPlayerNumbers) {
-        checkForCharacterExistence(inputPlayerNumbers);
-        checkTheLength(inputPlayerNumbers);
-        checkForDuplicateNumber(inputPlayerNumbers);
-        checkThePresenceOfZeros(inputPlayerNumbers);
+        checkCharacterExistence(inputPlayerNumbers);
+        checkLength(inputPlayerNumbers);
+        checkDuplicateNumber(inputPlayerNumbers);
+        checkPresenceOfZero(inputPlayerNumbers);
     }
 
-    public void checkForCharacterExistence(String inputPlayerNumbers) {
+    public void checkCharacterExistence(String inputPlayerNumbers) {
         try {
             Integer.parseInt(inputPlayerNumbers);
         } catch (IllegalArgumentException e) {
@@ -51,12 +51,12 @@ public class PlayerService {
         }
     }
 
-    public void checkTheLength(String inputPlayerNumbers) {
+    public void checkLength(String inputPlayerNumbers) {
         if (inputPlayerNumbers.length() != 3)
             throw new IllegalArgumentException();
     }
 
-    public void checkForDuplicateNumber(String inputPlayerNumbers) {
+    public void checkDuplicateNumber(String inputPlayerNumbers) {
         ArrayList<Integer> numbers = new ArrayList<>();   // new boolean[10]
         for (int i = 0; i < 3; i++) {
             if (numbers.contains(Character.getNumericValue(inputPlayerNumbers.charAt(i))))
@@ -65,7 +65,7 @@ public class PlayerService {
         }
     }
 
-    public void checkThePresenceOfZeros(String inputPlayerNumbers) {
+    public void checkPresenceOfZero(String inputPlayerNumbers) {
         if (inputPlayerNumbers.contains("0"))
             throw new IllegalArgumentException();
     }

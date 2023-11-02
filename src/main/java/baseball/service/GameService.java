@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class GameService {
+public class GameService {   // 여러 service 중심
 
     private final ComputerService computerService = new ComputerService();
     private final PlayerService playerService = new PlayerService();
@@ -31,10 +31,7 @@ public class GameService {
 
 
     public ArrayList<Integer> getResult(Computer computer, Player player) {
-        ArrayList<Integer> computerNumbers = computerService.getComputerNumber(computer);
-        ArrayList<Integer> playerNumbers = playerService.getPlayerNumber(player);
-
-        return checkBallCount(computerNumbers, playerNumbers);
+        return checkBallCount(computerService.getComputerNumber(computer), playerService.getPlayerNumber(player));
     }
 
     public ArrayList<Integer> checkBallCount(ArrayList<Integer> com, ArrayList<Integer> player) {
